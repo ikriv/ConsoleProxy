@@ -28,9 +28,13 @@ public:
 		{
 			_flags = DETACHED_PROCESS;
 		}
-		else if (option == L"-n" || option == L"--no-window")
+		else if (option == L"-w" || option == L"--no-window")
 		{
 			_flags = CREATE_NO_WINDOW;
+		}
+		else if (option == L"-c" || option == L"--new-console")
+		{
+			_flags = CREATE_NEW_CONSOLE;
 		}
 		else
 		{
@@ -40,6 +44,15 @@ public:
 
 		_processToRun = commandLine.argv(1);
 		return true;
+	}
+
+	static LPCWSTR usageInfo()
+	{
+		return L"Usage: ShowOutput [options] what_to_run\r\n"
+			L"Options:\r\n"
+			L"\t-c --new-console: use CREATE_NEW_CONSOLE\r\n"
+			L"\t-d, --detached: use DETACHED_PROCESS\r\n"
+			L"\t-w --no-window: use CREATE_NO_WINDOW\r\n";
 	}
 
 	std::wstring const& processToRun() const { return _processToRun; }

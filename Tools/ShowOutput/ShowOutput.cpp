@@ -14,10 +14,7 @@ void ShowError(wstring const& s)
 
 void Usage()
 {
-	ShowError(L"Usage: ShowOutput [options] what_to_run\r\n"
-	          L"Options:\r\n"
-		      L"\t-d, --detached: use DETACHED_PROCESS\r\n"
-	          L"\t-n --no-window: use CREATE_NO_WINDOW\r\n");
+	ShowError(ShowOutputArgs::usageInfo());
 }
 
 int APIENTRY wWinMain(
