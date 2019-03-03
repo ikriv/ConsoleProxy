@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <sstream>
-
 class Win32Error
 {
 	std::wstring _message;

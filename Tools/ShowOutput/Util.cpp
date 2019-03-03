@@ -1,9 +1,7 @@
-#include <Windows.h>
-#include <string>
-#include <vector>
+#include "stdafx.h"
+#include "Util.h"
 #include "Pipe.h"
 #include "Win32Error.h"
-#include "Util.h"
 
 using namespace std;
 

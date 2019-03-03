@@ -1,8 +1,4 @@
-#include <Windows.h>
-#include <string>
-#include <sstream>
-#include <vector>
-
+#include "stdafx.h"
 #include "Win32Error.h"
 #include "CommandLine.h"
 #include "Pipe.h"
