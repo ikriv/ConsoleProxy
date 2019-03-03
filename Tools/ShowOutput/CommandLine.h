@@ -18,6 +18,6 @@ public:
 
 	int argc() const { return _argc; }
 	int size() const { return _argc; }
-	LPCWSTR argv(int n) { return _argv[n]; }
+	LPCWSTR argv(int n) const { return _argv[n]; }
 };
 

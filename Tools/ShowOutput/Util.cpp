@@ -5,7 +5,7 @@
 
 using namespace std;
 
-HANDLE Util::CreateChildProcess(wstring const& commandLine, Pipe const& output)
+HANDLE Util::CreateChildProcess(wstring const& commandLine, DWORD flags, Pipe const& output)
 {
 	STARTUPINFOW si;
 	ZeroMemory(&si, sizeof(si));
@@ -15,7 +15,6 @@ HANDLE Util::CreateChildProcess(wstring const& commandLine, Pipe const& output)
 
 	PROCESS_INFORMATION pi;
 	ZeroMemory(&pi, sizeof(pi));
-	DWORD flags = CREATE_NO_WINDOW; // DETACHED_PROCESS
 
 	wstring commandLineCopy = commandLine; // writable copy
 

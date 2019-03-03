@@ -3,6 +3,7 @@
 #include "CommandLine.h"
 #include "Pipe.h"
 #include "Util.h"
+#include "ShowOutputArgs.h"
 
 using namespace std;
 
@@ -28,14 +29,16 @@ int APIENTRY wWinMain(
 	try
 	{
 		CommandLine commandLine(lpCmdLine);
-		if (commandLine.size() == 0)
+		ShowOutputArgs args;
+
+		if (!args.Parse(commandLine))
 		{
 			Usage();
 			return 1;
 		}
 		
 		Pipe output(false, true);
-		HANDLE hProcess = Util::CreateChildProcess(commandLine.argv(0), output);
+		HANDLE hProcess = Util::CreateChildProcess(args.processToRun(), args.flags(), output);
 		if (!hProcess) return 2;
 		CloseHandle(hProcess);
 
