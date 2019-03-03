@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Win32Error.h"
+
 class Pipe
 {
 	HANDLE hRead;

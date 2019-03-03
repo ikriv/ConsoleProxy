@@ -112,6 +112,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ShowOutput.cpp" />
+    <ClCompile Include="Util.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CommandLine.h" />
+    <ClInclude Include="Pipe.h" />
+    <ClInclude Include="Util.h" />
+    <ClInclude Include="Win32Error.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
