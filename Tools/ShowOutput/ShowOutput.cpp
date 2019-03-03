@@ -48,7 +48,8 @@ int APIENTRY wWinMain(
 		Util::ReadFromPipe(output.ReadHandle(), outputBuffer);
 
 		wstring processOutput;
-		if (!Util::CharToUnicode(outputBuffer, CP_OEMCP, processOutput)) return 2;
+		DWORD codePage = (args.flags() & DETACHED_PROCESS) ? CP_ACP : CP_OEMCP; // yes, the code page is different depending on the flags, ouch
+		if (!Util::CharToUnicode(outputBuffer, codePage, processOutput)) return 2;
 
 		MessageBoxW(NULL, processOutput.c_str(), L"Output", MB_OK);
 	}
