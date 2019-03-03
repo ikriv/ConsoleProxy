@@ -3,89 +3,16 @@
 #include <sstream>
 #include <vector>
 
+#include "Win32Error.h"
+#include "CommandLine.h"
+#include "Pipe.h"
+
 using namespace std;
 
 void ShowError(wstring const& s)
 {
 	MessageBoxW(NULL, s.c_str(), L"Error", MB_OK | MB_ICONERROR);
 }
-
-class Win32Error
-{
-	wstring _message;
-
-public:
-	explicit Win32Error(wstring const& method)
-	{
-		DWORD error = GetLastError();
-		wostringstream msg;
-		msg << method << " failed. Error " << error;
-		_message = msg.str();
-	}
-
-	wstring const& message() const { return _message; }
-};
-
-class CommandLine
-{
-	int _argc;
-	LPWSTR* _argv;
-public:
-	explicit CommandLine(LPCWSTR data)
-	{
-		_argv = CommandLineToArgvW(data, &_argc);
-		if (!_argv) throw Win32Error(L"CommandLineToArgvW");
-	}
-
-	~CommandLine()
-	{
-		if (_argv) LocalFree(_argv);
-	}
-
-	int argc() const { return _argc; }
-	int size() const { return _argc; }
-	LPCWSTR argv(int n) { return _argv[n]; }
-};
-
-class Pipe
-{
-	HANDLE hRead;
-	HANDLE hWrite;
-
-	static void Close(HANDLE* pHandle)
-	{
-		if (!pHandle || !*pHandle) return;
-		CloseHandle(*pHandle);
-		*pHandle = NULL;
-	}
-
-public:
-	Pipe(bool inheritRead, bool inheritWrite)
-	{
-		hRead = hWrite = NULL;
-
-		SECURITY_ATTRIBUTES sa;
-		sa.nLength = sizeof(SECURITY_ATTRIBUTES);
-		sa.bInheritHandle = TRUE;
-		sa.lpSecurityDescriptor = NULL;
-
-		if (!CreatePipe(&hRead, &hWrite, &sa, 0)) throw Win32Error(L"CreatePipe");
-
-		if (!inheritRead) SetHandleInformation(hRead, HANDLE_FLAG_INHERIT, 0);
-		if (!inheritWrite) SetHandleInformation(hWrite, HANDLE_FLAG_INHERIT, 0);
-	}
-
-	~Pipe()
-	{
-		CloseRead();
-		CloseWrite();
-	}
-
-	HANDLE ReadHandle() const { return hRead; }
-	HANDLE WriteHandle() const { return hWrite; }
-	void CloseRead() { Close(&hRead); }
-	void CloseWrite() { Close(&hWrite); }
-};
 
 HANDLE CreateChildProcess(wstring const& commandLine, Pipe const& output)
 {
