@@ -25,7 +25,8 @@ int APIENTRY wWinMain(
 {
 	try
 	{
-		CommandLine commandLine(lpCmdLine);
+		// Note: commandLine.argv(0) is the first argument, NOT the process name, because lpCmdLine does not contain the process name
+		CommandLine commandLine(lpCmdLine); 
 		ShowOutputArgs args;
 
 		if (!args.Parse(commandLine))
