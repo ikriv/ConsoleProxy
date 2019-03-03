@@ -37,8 +37,16 @@ int wmain(int argc, wchar_t** argv)
 	
 	if (!GetConsoleWindow())
 	{
-		// we are running without a console, run the target without a window with redirected handles
-		processFlags = CREATE_NO_WINDOW;
+		// There is no console, so we were started as either DETACHED_PROCESS or CREATE_NO_WINDOW.
+		// This is important for handling non-ASCII output
+		// If we are DETACHED_PROCESS, we will have system code page CP_ACP, CP 1251 for Cyrillic
+		// If we are CREATE_NO_WINDOW, we will have OEM code page CP_OEMCP, CP 866 for Cyrillic
+		// 
+		// We want the child process to have the same code page as us, or the output will be garbled.
+		// Thus, we run it detached if we are detached, and "no window" otherwise
+		bool weAreDetached = GetConsoleOutputCP() == CP_ACP; 
+		processFlags = weAreDetached ? DETACHED_PROCESS : CREATE_NO_WINDOW;
+
 		si.dwFlags = STARTF_USESTDHANDLES;
 		si.hStdInput = duplicate(GetStdHandle(STD_INPUT_HANDLE));
 		si.hStdOutput = duplicate(GetStdHandle(STD_OUTPUT_HANDLE));
