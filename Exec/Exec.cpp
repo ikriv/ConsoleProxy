@@ -9,7 +9,7 @@ static HANDLE hProcess = GetCurrentProcess();
 
 void usage()
 {
-	printf("Usage: exec command OR exec \"command arg1 arg2 ...\"");
+	puts("Usage: exec command OR exec \"command arg1 arg2 ...\"");
 }
 
 HANDLE duplicate(HANDLE h)
