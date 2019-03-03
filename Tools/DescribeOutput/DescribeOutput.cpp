@@ -41,6 +41,8 @@ int main()
 	DWORD type = GetFileType(hOutput);
 	msg << " has type " << type << ", " << GetHandleTypeText(type) << endl;
 
+	msg << "Console code page is " << GetConsoleOutputCP() << endl;
+
 	cout << msg.str();
 
 	ofstream log;
