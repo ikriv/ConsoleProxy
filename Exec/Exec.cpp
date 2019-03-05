@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "ArgsUtil.h"
 
 using namespace std;
 
@@ -30,16 +31,11 @@ HANDLE duplicate(HANDLE h)
 int wmain(int argc, wchar_t** argv)
 {
 	// argv[0] is the process name
-	if (argc != 2 && argc != 3)
-	{
-		usage();
-		return ERROR_INVALID_DATA;
-	}
-
 	bool hasOption = false;
 	DWORD flagsFromOption = 0;
 
-	if (argc == 3)
+	// check if argv[1] is an option
+	if (argc > 2)
 	{
 		hasOption = true;
 		wchar_t* option = argv[1];
@@ -49,12 +45,10 @@ int wmain(int argc, wchar_t** argv)
 		else if (wcscmp(L"-0", option) == 0) flagsFromOption = 0;
 		else
 		{
-			usage();
-			return ERROR_INVALID_DATA;
+			hasOption = false;
 		}
 	}
 
-	LPWSTR command = argv[hasOption ? 2 : 1];
 	DWORD processFlags = flagsFromOption;
 
 	STARTUPINFO si;
@@ -80,9 +74,14 @@ int wmain(int argc, wchar_t** argv)
 		si.hStdError = duplicate(GetStdHandle(STD_ERROR_HANDLE));
 	}
 
+	int skipArgs = hasOption ? 2 : 1;
+	int childArgc = argc - skipArgs;
+	wchar_t** childArgv = argv + skipArgs;
+	wstring command = ArgsUtil<wchar_t>::EscapeArgs(childArgc, childArgv);
+
 	PROCESS_INFORMATION pi;
 
-	if (!CreateProcessW(NULL, command, NULL, NULL, TRUE, processFlags, NULL, NULL, &si, &pi))
+	if (!CreateProcessW(NULL, &command.front(), NULL, NULL, TRUE, processFlags, NULL, NULL, &si, &pi))
 	{
 		DWORD error = GetLastError();
 		return error;
