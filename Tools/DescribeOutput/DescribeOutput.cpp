@@ -41,6 +41,21 @@ int main()
 	DWORD type = GetFileType(hOutput);
 	msg << " has type " << type << ", " << GetHandleTypeText(type) << endl;
 
+	if (type == FILE_TYPE_CHAR)
+	{
+		_CONSOLE_SCREEN_BUFFER_INFO info;
+		if (GetConsoleScreenBufferInfo(hOutput, &info))
+		{
+			msg << "Output console window is " 
+				<< info.srWindow.Right - info.srWindow.Left + 1 << "x" << info.srWindow.Bottom - info.srWindow.Top + 1 
+				<< ", buffer is " << info.dwSize.X << "x" << info.dwSize.Y << endl;
+		}
+		else
+		{
+			msg << "Consoel buffer info not available" << endl;
+		}
+	}
+
 	msg << "Console code page is " << GetConsoleOutputCP() << endl;
 
 	cout << msg.str();
