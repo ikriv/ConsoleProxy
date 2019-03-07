@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CommandLine.h"
+#include "..\..\Exec\ArgsUtil.h"
 
 class ShowOutputArgs
 {
@@ -14,15 +15,10 @@ public:
 	bool Parse(CommandLine const& commandLine)
 	{
 		int argc = commandLine.argc();
-		if (argc == 0 || argc > 2) return false;
+		if (argc == 0) return false;
 		
-		if (argc == 1)
-		{
-			_processToRun = commandLine.argv(0);
-			return true;
-		}
-
-		// 2 arguments
+		bool hasOption = true;
+		
 		std::wstring option = commandLine.argv(0);
 		if (option == L"-d" || option == L"--detached")
 		{
@@ -38,11 +34,18 @@ public:
 		}
 		else
 		{
-			// unknown option
+			// unknown option or first argument is not an option
+			hasOption = false;
+		}
+
+		int skipArgs = hasOption ? 1 : 0;
+		if (argc <= skipArgs)
+		{
+			// nothing follows the options, it is not right
 			return false;
 		}
 
-		_processToRun = commandLine.argv(1);
+		_processToRun = ArgsUtil<wchar_t>::EscapeArgs(commandLine.argc() - skipArgs, commandLine.argv() + skipArgs);
 		return true;
 	}
 
