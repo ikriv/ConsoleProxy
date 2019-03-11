@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CommandLine.h"
-#include "..\..\Exec\ArgsUtil.h"
+#include "..\..\Common\ArgsUtil.h"
 
 class ShowOutputArgs
 {

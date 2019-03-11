@@ -51,11 +51,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Exec\Exec.vcxproj">
-      <Project>{98bd6cd4-2bba-4026-a13e-afa760436e4b}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemDefinitionGroup />
