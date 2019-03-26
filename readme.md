@@ -48,10 +48,15 @@ A tool that executes given command line with various process creation flags.
 
 Options:
   `-a`: Set output code page to ANSI, i.e. return value of `GetACP()` before launching the child
-    `-c`: Use CREATE_NEW_CONSOLE flag
+  
+  `-c`: Use CREATE_NEW_CONSOLE flag
+  
   `-d`: Use DETACHED_PROCESS flag
+  
   `-r`: Explicitly redirect child's standard input and output to Exec's own
+  
   `-w`: Use CREATE_NO_WINDOW flag
+  
   `-0`: Use default flags (0) when creating the child process. 
  
  All options *must* be provided after one dash sign. Multiple arguments starting with dash won't be processed. Exec can be used recursively, e.g. 
@@ -59,8 +64,11 @@ Options:
  
  ## ShowOutput
  A GUI application that launches the child process, redirects its output to a pipe, converts result to UNICODE and displays it in a message box. Uses system OEM encoding for everything except detached children. Uses ANSI encoding for DETACHED_PROSESS children. Accepts options siimialr to `Exec`:
-    `-c`: Use CREATE_NEW_CONSOLE flag
+ 
+  `-c`: Use CREATE_NEW_CONSOLE flag
+  
   `-d`: Use DETACHED_PROCESS flag
+  
   `-w`: Use CREATE_NO_WINDOW flag
 
 No option means use zero (0) for flags. 
