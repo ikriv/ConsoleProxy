@@ -47,6 +47,7 @@ Writes this to the standard output and to a file named `DescribeOutput.txt`.
 A tool that executes given command line with various process creation flags. 
 
 Options:
+
   `-a`: Set output code page to ANSI, i.e. return value of `GetACP()` before launching the child
   
   `-c`: Use CREATE_NEW_CONSOLE flag
