@@ -31,11 +31,9 @@ int runProxy(int argc, char** argv, string const& progName, ostream& log)
 
 	if (!GetConsoleWindow() && !GetConsoleOutputCP())
 	{
-		// Our process does not have console window, and output codepage is zero => we are detached.
-		// Start child process with CREATE_NO_WINDOW flag.
-		// Plus: this automatically redirects output of grandchildren
-		// Con: this sets wrong code page for international output.
-		flags = CREATE_NO_WINDOW;
+		// Our process was invoked with DETACHED_PROCSESS flag
+		// To preserve transparency, invoke the child with DETACHED_PROCESS flag as well, and redirect its output to our output
+		flags = DETACHED_PROCESS;
 		forceRedirect = true;
 	}
 
