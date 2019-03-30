@@ -16,6 +16,7 @@ void usage()
 	puts("\ta Set ANSI code page (CP_ACP)");
 	puts("\tc Use CREATE_NEW_CONSOLE");
 	puts("\td Use DETACHED_PROCESS");
+	puts("\tp Pause on exit");
 	puts("\tr Explicitly redirect child's handles");
 	puts("\tw Use CREATE_NO_WINDOW");
 	puts("\t0 Use no special flags (default)");
@@ -36,6 +37,7 @@ struct Options
 	bool ForceAnsiCodepage;
 	DWORD Flags;
 	bool ForceRedirect;
+	bool PauseOnExit;
 };
 
 bool getOptions(wchar_t* arg, Options* pOptions)
@@ -50,6 +52,7 @@ bool getOptions(wchar_t* arg, Options* pOptions)
 		case 'a': pOptions->ForceAnsiCodepage = true; break;
 		case 'c': pOptions->Flags = CREATE_NEW_CONSOLE; break;
 		case 'd': pOptions->Flags = DETACHED_PROCESS; break;
+		case 'p': pOptions->PauseOnExit = true; break;
 		case 'r': pOptions->ForceRedirect = true; break;
 		case 'w': pOptions->Flags = CREATE_NO_WINDOW; break;
 		case '0': pOptions->Flags = 0; break;
@@ -111,6 +114,12 @@ int wmain(int argc, wchar_t** argv)
 
 	CloseHandle(pi.hThread);
 	WaitForSingleObject(pi.hProcess, INFINITE);
+
+	if (options.PauseOnExit)
+	{
+		printf("Press any key to continue...");
+		getchar();
+	}
 
     return 0;
 }
