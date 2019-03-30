@@ -18,10 +18,9 @@ void usage()
 	puts("\td Use DETACHED_PROCESS");
 	puts("\tr Explicitly redirect child's handles");
 	puts("\tw Use CREATE_NO_WINDOW");
-	puts("\t0 Use no special flags");
+	puts("\t0 Use no special flags (default)");
 	puts("");
-	puts("c,d,w,0 are mutually exclusive");
-	puts("Default options are -rw when Exec process itself is detached, and -0 in all other cases");
+	puts("c,d,w,0 are mutually exclusive (if several are specified, last wins");
 }
 
 HANDLE duplicate(HANDLE h)
@@ -64,6 +63,12 @@ bool getOptions(wchar_t* arg, Options* pOptions)
 int wmain(int argc, wchar_t** argv)
 {
 	// argv[0] is the process name
+	if (argc == 1)
+	{
+		usage();
+		return 1;
+	}
+
 	DWORD flagsFromOption = 0;
 
 	Options options = {};
@@ -72,34 +77,6 @@ int wmain(int argc, wchar_t** argv)
 	if (argc > 2)
 	{
 		if (!getOptions(argv[1], &options)) return 1;
-	}
-
-	if (!options.HasOptions)
-	{
-		if (GetConsoleWindow() || GetConsoleOutputCP())
-		{
-			// we have a console, or were created using CREATE_NO_WINDOW, in which case GetConsoleOutputCP() is not 0
-			options.Flags = 0;
-		}
-		else
-		{
-			// Plus: this automatically redirects output of grandchildren
-			// Con: this sets wrong code page for international output.
-			//
-			// Normally console applications use OEM codepage for standard output (CP866 for Russian), but detached procseses use ANSI codepage (CP1251 for Russian).
-			// Our parent invoked us as DETACHED_PROSESS, so it may expect the output in the system codepage (or may just not care).
-			// Our child process, being run as CREATE_NO_WINDOW, will produce output in OEM codepage, and our parent may not decode it correctly.
-			// If we had our own console, the child would inherit its encoding, but we are detached, and I don't know about a way to force ANSI code page on the child.
-			//
-			// Another sensible option would be to run the child detached ('-dr") as well. This ensures ANSI code page, but fails to redirect the output 
-			// of the grandchild process, if any
-			//
-			// If we want to preserve the code page AND account for the grandchildren, we must use an extra process that would switch to ANSI code page: 
-			// Exec -rw Exec -a child. However, this situation is rare. CREATE_NO_WINDOW+rediect would work just fine in most practical cases.
-
-			options.Flags = CREATE_NO_WINDOW;
-			options.ForceRedirect = true;
-		}
 	}
 
 	if (options.ForceAnsiCodepage)
