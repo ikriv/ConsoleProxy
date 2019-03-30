@@ -52,7 +52,7 @@ int main()
 		}
 		else
 		{
-			msg << "Consoel buffer info not available" << endl;
+			msg << "Console buffer info not available" << endl;
 		}
 	}
 
