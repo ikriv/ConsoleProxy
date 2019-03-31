@@ -28,8 +28,11 @@ char const * GetHandleTypeText(DWORD type)
 	}
 }
 
-int main()
+int main(int argc, char** argv)
 {
+	bool pauseRequested = argc > 1 && strcmp("-p", argv[1]) == 0;
+	bool attachedToVisibleConsole = false;
+
 	ostringstream msg;
 
 	HWND hConsole = GetConsoleWindow();
@@ -49,6 +52,8 @@ int main()
 			msg << "Output console window is " 
 				<< info.srWindow.Right - info.srWindow.Left + 1 << "x" << info.srWindow.Bottom - info.srWindow.Top + 1 
 				<< ", buffer is " << info.dwSize.X << "x" << info.dwSize.Y << endl;
+
+			attachedToVisibleConsole = hConsole != NULL;
 		}
 		else
 		{
@@ -64,6 +69,12 @@ int main()
 	log.open("DescribeOutput.txt", ios::out | ios::trunc);
 
 	log << msg.str();
+
+	if (pauseRequested && attachedToVisibleConsole)
+	{
+		puts("Press any key to continue...");
+		getchar();
+	}
 
     return 0;
 }
