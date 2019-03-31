@@ -1,0 +1,4 @@
+The process has a console window
+Output handle 144 has type 2, character device
+Output console window is 120x30, buffer is 120x9001
+Console code page is 866

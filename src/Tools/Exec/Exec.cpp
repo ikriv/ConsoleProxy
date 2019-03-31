@@ -1,6 +1,3 @@
-// Exec.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include "..\..\Common\ArgsUtil.h"
 
@@ -8,10 +5,17 @@ using namespace std;
 
 static HANDLE hProcess = GetCurrentProcess();
 
+#ifdef _CONSOLE
 void message(string const& text)
 {
 	puts(text.c_str());
 }
+#else
+void message(string const& text)
+{
+	MessageBoxA(NULL, text.c_str(), "ConsoleProxy", MB_OK | MB_ICONINFORMATION);
+}
+#endif
 
 void usage()
 {
@@ -98,7 +102,7 @@ int wmain(int argc, wchar_t** argv)
 		SetConsoleOutputCP(GetACP());
 	}
 
-	STARTUPINFO si;
+	STARTUPINFOW si;
 	ZeroMemory(&si, sizeof(si));
 	si.cb = sizeof(si);
 
@@ -128,10 +132,20 @@ int wmain(int argc, wchar_t** argv)
 
 	if (options.PauseOnExit)
 	{
+#ifdef _CONSOLE
 		message("Press any key to continue...");
 		getchar();
+#else
+		message("Press OK to continue...");
+#endif
 	}
 
     return 0;
 }
 
+#ifndef _CONSOLE
+int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, wchar_t* lpCmdLine, int nCmdShow)
+{
+	return wmain(__argc, __wargv);
+}
+#endif
