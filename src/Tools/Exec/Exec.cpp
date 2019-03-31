@@ -8,26 +8,37 @@ using namespace std;
 
 static HANDLE hProcess = GetCurrentProcess();
 
+void message(string const& text)
+{
+	puts(text.c_str());
+}
+
 void usage()
 {
-	puts("Usage: exec [-options] command");
-	puts("Example: exec -arw cmd /c echo foo");
-	puts("Options:");
-	puts("\ta Set ANSI code page (CP_ACP)");
-	puts("\tc Use CREATE_NEW_CONSOLE");
-	puts("\td Use DETACHED_PROCESS");
-	puts("\tp Pause on exit");
-	puts("\tr Explicitly redirect child's handles");
-	puts("\tw Use CREATE_NO_WINDOW");
-	puts("\t0 Use no special flags (default)");
-	puts("");
-	puts("c,d,w,0 are mutually exclusive (if several are specified, last wins");
+	message(
+		"Usage: exec [-options] command\r\n"
+		"Example: exec -arw cmd /c echo foo\r\n"
+		"Options:\r\n"
+		"\ta Set ANSI code page (CP_ACP)\r\n"
+		"\tc Use CREATE_NEW_CONSOLE\r\n"
+		"\td Use DETACHED_PROCESS\r\n"
+		"\tp Pause on exit\r\n"
+		"\tr Explicitly redirect child's handles\r\n"
+		"\tw Use CREATE_NO_WINDOW\r\n"
+		"\t0 Use no special flags (default)\r\n"
+		"\r\n"
+		"c,d,w,0 are mutually exclusive (if several are specified, last wins");
 }
 
 HANDLE duplicate(HANDLE h)
 {
 	HANDLE result;
-	if (!DuplicateHandle(hProcess, h, hProcess, &result, 0, TRUE, DUPLICATE_SAME_ACCESS)) return NULL;
+	if (!DuplicateHandle(hProcess, h, hProcess, &result, 0, TRUE, DUPLICATE_SAME_ACCESS))
+	{
+		message("Failed to duplicate handle");
+		return NULL;
+	}
+
 	return result;
 }
 
@@ -117,7 +128,7 @@ int wmain(int argc, wchar_t** argv)
 
 	if (options.PauseOnExit)
 	{
-		printf("Press any key to continue...");
+		message("Press any key to continue...");
 		getchar();
 	}
 
