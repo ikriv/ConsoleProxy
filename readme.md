@@ -25,11 +25,11 @@ When invoked under name `foo.exe`, ConsoleProxy creates a log file under `%local
 |[DescribeOutput](Tools/DescribeOutput/readme.md)      |Describes current console window and prints information to standard output and to a file.     |
 |[Exec](Tools\Exec\readme.md)                          |Console application that executes a command with given process creation flags.                |
 |[ExecW](Tools\Exec\readme.md)                         |GUI version of `Exec`.                                                                        |
-|[ShowOutput]((Tools\ShowOutput\readme.md)             |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
+|[ShowOutput](Tools\ShowOutput\readme.md)              |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
 
 ## Research Subjects
 
- * [Exact meaning of console process creation flags like DETACHED_PROCESS]([https://ikriv.com/dev/cpp/ConsoleProxy/flags)
+ * [Exact meaning of console process creation flags like DETACHED_PROCESS](https://ikriv.com/dev/cpp/ConsoleProxy/flags):
    * Under what cricumstances new consoles are created
    * Where does the standard output go
    * Visible and invisible console console buffers
