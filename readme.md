@@ -21,11 +21,11 @@ When invoked under name `foo.exe`, ConsoleProxy creates a log file under `%local
 
 |Project                                               | Description                                                                                  |
 |------------------------------------------------------|----------------------------------------------------------------------------------------------|
-|[ConsoleHelloWorld](Tools\ConsoleHelloWorld\readme.md)|Prints "Hello, World" in English and Russian to test international characters encoding issues.|
-|[DescribeOutput](Tools/DescribeOutput/readme.md)      |Describes current console window and prints information to standard output and to a file.     |
-|[Exec](Tools\Exec\readme.md)                          |Console application that executes a command with given process creation flags.                |
-|[ExecW](Tools\Exec\readme.md)                         |GUI version of `Exec`.                                                                        |
-|[ShowOutput](Tools\ShowOutput\readme.md)              |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
+|[ConsoleHelloWorld](src/Tools/ConsoleHelloWorld/readme.md)|Prints "Hello, World" in English and Russian to test international characters encoding issues.|
+|[DescribeOutput](src/Tools/DescribeOutput/readme.md)      |Describes current console window and prints information to standard output and to a file.     |
+|[Exec](src/Tools/Exec/readme.md)                          |Console application that executes a command with given process creation flags.                |
+|[ExecW](src/Tools\Exec/readme.md)                         |GUI version of `Exec`.                                                                        |
+|[ShowOutput](src/Tools/ShowOutput/readme.md)              |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
 
 ## Research Subjects
 
