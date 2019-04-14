@@ -4,25 +4,7 @@ This project implements the `ConsoleProxy` tool that acts as a "logging decorato
 
 See also: https://ikriv.com/dev/cpp/ConsoleProxy
 
-Additional exploratory tools:
 
-|Project                                               | Description                                                                                  |
-|------------------------------------------------------|----------------------------------------------------------------------------------------------|
-|[ConsoleHelloWorld](Tools\ConsoleHelloWorld\readme.md)|Prints "Hello, World" in English and Russian to test international characters encoding issues.|
-|[DescribeOutput](Tools/DescribeOutput/readme.md)      |Describes current console window and prints information to standard output and to a file.     |
-|[Exec](Tools\Exec\readme.md)                          |Console application that executes a command with given process creation flags.                |
-|[ExecW](Tools\Exec\readme.md)                         |GUI version of `Exec`.                                                                        |
-|[ShowOutput]([Exec](Tools\ShowOutput\readme.md)       |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
-
-The subjects touched are:
-
- * [Exact meaning of console process creation flags like  DETACHED_PROCESS]([https://ikriv.com/dev/cpp/ConsoleProxy/flags).
-   * Under what cricumstances new consoles are created
-   * Where does the standard output go
-   * Visible and invisible console console buffers
- * [International characters encoding, code pages, etc.](https://ikriv.com/dev/cpp/ConsoleProxy/codepages)
- * [How to properly escape command line arguments](https://ikriv.com/dev/cpp/ConsoleProxy/cmdline).
- 
 ## ConsoleProxy Tool
 
 ConsoleProxy is a sample logging proxy that can transparently replace any console application and log its usage to a file.
@@ -34,3 +16,22 @@ To proxy an application named `foo.exe` do the following:
  1. Create environment variable `NATIVE_foo` and set its value to the location of the original foo.exe.
  
 When invoked under name `foo.exe`, ConsoleProxy creates a log file under `%localappdata%\ConsoleProxy\Foo` folder, locates the original `foo.exe` via `NATIVE_foo` environment variable, and launches it with the same arguments as itself.
+
+## Additional exploratory tools:
+
+|Project                                               | Description                                                                                  |
+|------------------------------------------------------|----------------------------------------------------------------------------------------------|
+|[ConsoleHelloWorld](Tools\ConsoleHelloWorld\readme.md)|Prints "Hello, World" in English and Russian to test international characters encoding issues.|
+|[DescribeOutput](Tools/DescribeOutput/readme.md)      |Describes current console window and prints information to standard output and to a file.     |
+|[Exec](Tools\Exec\readme.md)                          |Console application that executes a command with given process creation flags.                |
+|[ExecW](Tools\Exec\readme.md)                         |GUI version of `Exec`.                                                                        |
+|[ShowOutput]((Tools\ShowOutput\readme.md)             |GUI application that executes a command with given process creation flags, redirects output to a pipe and displays it in a message box.|
+
+## Research Subjects
+
+ * [Exact meaning of console process creation flags like DETACHED_PROCESS]([https://ikriv.com/dev/cpp/ConsoleProxy/flags)
+   * Under what cricumstances new consoles are created
+   * Where does the standard output go
+   * Visible and invisible console console buffers
+ * [International characters encoding, code pages, etc.](https://ikriv.com/dev/cpp/ConsoleProxy/codepages)
+ * [How to properly escape command line arguments](https://ikriv.com/dev/cpp/ConsoleProxy/cmdline).
